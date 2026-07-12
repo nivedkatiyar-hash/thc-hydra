@@ -26,7 +26,7 @@ Prio 2:
 * hydra-smb support NTLMv2 (when its fixed)
 * support for 802.1x EAP via libpcap
 * TN3270, and TN3270 user enumeration
-* Support nmap -o and -oM output files
+* Support nmap -o and -oM output files ( I did this but it is on another branch and it is probably 100% broken)
 
 
 Prio 3:
