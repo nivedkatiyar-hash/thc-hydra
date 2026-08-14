@@ -96,3 +96,17 @@ uninstall:
 	-rm -f $(DESTDIR)$(PREFIX)$(MANDIR)/hydra.1 $(DESTDIR)$(PREFIX)$(MANDIR)/xhydra.1 $(DESTDIR)$(PREFIX)$(MANDIR)/pw-inspector.1
 	-rm -f $(DESTDIR)$(PREFIX)$(PIXDIR)/xhydra.png
 	-rm -f $(DESTDIR)$(PREFIX)$(APPDIR)/xhydra.desktop
+# hydra/src/Makefile.am - Add Nmap integration
+
+# Add Nmap source file
+hydra_SOURCES += hydra-nmap.c
+
+# Check for libxml2 (required for Nmap XML parsing)
+AM_CPPFLAGS += @XML2_CFLAGS@
+hydra_LDADD += @XML2_LIBS@
+
+# Conditional Nmap support
+if HAVE_NMAP
+    AM_CFLAGS += -DHAVE_NMAP
+    hydra_SOURCES += hydra-nmap.c
+endif
