@@ -96,3 +96,21 @@ uninstall:
 	-rm -f $(DESTDIR)$(PREFIX)$(MANDIR)/hydra.1 $(DESTDIR)$(PREFIX)$(MANDIR)/xhydra.1 $(DESTDIR)$(PREFIX)$(MANDIR)/pw-inspector.1
 	-rm -f $(DESTDIR)$(PREFIX)$(PIXDIR)/xhydra.png
 	-rm -f $(DESTDIR)$(PREFIX)$(APPDIR)/xhydra.desktop
+# Makefile for BFG examples
+
+CC = gcc
+CFLAGS = -O2 -Wall -Wextra -pthread -DTEST_BFG
+LDFLAGS = -lm -lpthread
+
+all: test_bfg
+
+test_bfg: bfg.c test_bfg.c
+	$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
+
+clean:
+	rm -f test_bfg session.save
+
+run: test_bfg
+	./test_bfg
+
+.PHONY: all clean run
