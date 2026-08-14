@@ -96,3 +96,17 @@ uninstall:
 	-rm -f $(DESTDIR)$(PREFIX)$(MANDIR)/hydra.1 $(DESTDIR)$(PREFIX)$(MANDIR)/xhydra.1 $(DESTDIR)$(PREFIX)$(MANDIR)/pw-inspector.1
 	-rm -f $(DESTDIR)$(PREFIX)$(PIXDIR)/xhydra.png
 	-rm -f $(DESTDIR)$(PREFIX)$(APPDIR)/xhydra.desktop
+SRC = hydra-vnc.c hydra-pcnfs.c hydra-rexec.c hydra-nntp.c hydra-socks5.c \
+      hydra-telnet.c hydra-cisco.c hydra-http.c hydra-ftp.c hydra-imap.c \
+      hydra-irc.c hydra-ldap.c hydra-mysql.c hydra-ncp.c hydra-pop3.c \
+      hydra-postgres.c hydra-rlogin.c hydra-rsh.c hydra-smb.c hydra-smtp.c \
+      hydra-snmp.c hydra-ssh.c hydra-svn.c hydra-teamspeak.c \
+      hydra-mssql.c hydra-oracle.c hydra-oracle-sid.c hydra-oracle-listener.c \
+      hydra-http-proxy.c hydra-http-proxy-urlenum.c hydra-http-form.c \
+      hydra-http.c hydra-afp.c hydra-asterisk.c hydra-cisco-enable.c \
+      hydra-cvs.c hydra-firebird.c hydra-icq.c hydra-memcached.c \
+      hydra-mongodb.c hydra-rdp.c hydra-redis.c hydra-rpcap.c \
+      hydra-s7-300.c hydra-sapr3.c hydra-sip.c hydra-smb2.c \
+      hydra-smtp-enum.c hydra-sshkey.c hydra-xmpp.c \
+      hydra-adam6500.c hydra-cobaltstrike.c hydra-rtsp.c \
+      hydra-sybase.c   <-- ADD THIS LINE
