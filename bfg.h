@@ -1,56 +1,61 @@
-/*    (c) 2008 Jan Dlabal <dlabaljan@gmail.com>                               */
-/*                                                                            */
-/*     This file is part of the bfg.                                          */
-/*                                                                            */
-/*     bfgen is free software: you can redistribute it and/or modify          */
-/*     it under the terms of the GNU General Public License as published by   */
-/*     the Free Software Foundation, either version 3 of the License, or      */
-/*     any later version.                                                     */
-/*                                                                            */
-/*     bfgen is distributed in the hope that it will be useful,               */
-/*     but WITHOUT ANY WARRANTY; without even the implied warranty of         */
-/*     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the          */
-/*     GNU General Public License for more details.                           */
-/*                                                                            */
-/*     You should have received a copy of the GNU General Public License      */
-/*     along with bfgen. If not, see <http://www.gnu.org/licenses/>.          */
+/*
+ * bfg.h - Brute Force Generator Header
+ */
 
-#ifndef BF_H
-#define BF_H
+#ifndef BFG_H
+#define BFG_H
 
-#define BF_NAME "bfg"
-#define BF_VERSION "v0.3"
-#define BF_YEAR "2009"
-#define BF_WEBSITE "http://houbysoft.com/bfg/"
+#include <stdint.h>
 
-#define BF_BUFLEN 1024
-#define BF_CHARSMAX                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            \
-  256 /* how many max possibilities there are for characters, normally it's                                                                                                                                                                                                                                                                                                                                                                                                                                                    \
-         2^8 = 256 */
-
-#define BF_LOWER 1
-#define BF_UPPER 2
-#define BF_NUMS 4
+#define BF_CHARSMAX 4096
+#define BF_MAX_LENGTH 256
 
 typedef struct {
-  unsigned char from;
-  unsigned char to;
-  unsigned char current;
-  unsigned char state[BF_CHARSMAX]; /* which position has which character */
-  unsigned char pos;                /* where in current string length is the position */
-  unsigned char crs_len;            /* length of selected charset */
-  char *arg;                        /* argument received for bfg commandline option */
-  char *crs;                        /* internal representation of charset */
-  char *ptr;                        /* ptr to the last generated password */
-  uint32_t disable_symbols;
-} bf_option;
+    uint32_t from;
+    uint32_t to;
+    uint32_t current;
+    uint32_t crs_len;
+    uint8_t state[BF_MAX_LENGTH];
+    char *crs;
+    char *ptr;
+    uint32_t flags;
+    uint64_t total_count;
+    
+    /* Extended features */
+    uint32_t thread_id;
+    uint32_t num_threads;
+    uint64_t generated_count;
+    bool cache_enabled;
+} bf_options_t;
 
-extern bf_option bf_options;
+extern bf_options_t bf_options;
 
-#ifdef HAVE_MATH_H
-extern uint64_t bf_get_pcount();
-extern int32_t bf_init(char *arg);
-extern char *bf_next();
-#endif
+/* Core functions */
+int32_t bf_init(char *arg);
+char *bf_next(void);
+uint64_t bf_get_pcount(void);
 
-#endif
+/* Wordlist functions */
+typedef struct wordlist wordlist_t;
+wordlist_t *bf_load_wordlist(const char *filename);
+void bf_free_wordlist(wordlist_t *wl);
+char *bf_get_word(wordlist_t *wl, uint32_t index);
+char *bf_next_word(wordlist_t *wl);
+
+/* Mutation functions */
+typedef struct mutation_t mutation_t;
+char *bf_mutate(const char *password, mutation_t *rules);
+
+/* Thread functions */
+void bf_start_threads(uint32_t num);
+void bf_stop_threads(void);
+void bf_pause_threads(void);
+void bf_resume_threads(void);
+
+/* Cache functions */
+char *bf_next_cached(void);
+
+/* Utility functions */
+void bf_print_stats(void);
+
+#endif /* BFG_H */
