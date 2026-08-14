@@ -4669,3 +4669,19 @@ int main(int argc, char *argv[]) {
   else
     return 0;
 }
+typedef struct {
+    char *service_name;
+    int min_length;
+    int max_length;
+    int require_upper;
+    int require_lower;
+    int require_digits;
+    int require_special;
+} service_policy_t;
+
+service_policy_t service_policies[] = {
+    {"sybase", 6, 30, 1, 1, 1, 1},  // Sybase ASE
+    {"mssql", 6, 128, 1, 1, 1, 1},  // MS-SQL
+    {"mysql", 4, 16, 0, 0, 0, 0},   // MySQL
+    {NULL, 0, 0, 0, 0, 0, 0}
+};
